@@ -1,7 +1,7 @@
-package com.company;
+package com.despegar.command;
 
 
-import com.company.tree.Dir;
+import com.despegar.tree.Dir;
 
 public class CommandExit implements Command {
     private final String name;

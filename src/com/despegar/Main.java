@@ -1,10 +1,10 @@
-package com.company;
+package com.despegar;
 
-import com.company.tree.Dir;
+import com.despegar.command.CommandExit;
+import com.despegar.command.CommandLs;
+import com.despegar.tree.Dir;
 
 import java.util.Scanner;
-
-import static java.lang.String.format;
 
 public class Main {
 

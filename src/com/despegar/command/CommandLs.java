@@ -1,7 +1,6 @@
-package com.company;
+package com.despegar.command;
 
-import com.company.tree.Dir;
-import jdk.nashorn.internal.runtime.regexp.joni.Option;
+import com.despegar.tree.Dir;
 
 import java.util.Optional;
 
@@ -11,7 +10,6 @@ public class CommandLs implements Command {
     public CommandLs(String name) {
         this.name = name;
     }
-
 
     @Override
     public String toString() {

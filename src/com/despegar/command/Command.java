@@ -1,7 +1,7 @@
-package com.company;
+package com.despegar.command;
 
-import com.company.tree.Dir;
-import com.company.tree.TreeFactory;
+import com.despegar.tree.Dir;
+import com.despegar.tree.TreeFactory;
 
 
 public interface Command {

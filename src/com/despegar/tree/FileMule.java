@@ -1,4 +1,4 @@
-package com.company.tree;
+package com.despegar.tree;
 
 import lombok.Builder;
 import lombok.Getter;
