@@ -44,7 +44,6 @@ public class Main {
         System.out.printf("command: %s%n", command);
         System.out.printf("name: %s%n", actualDir.getName());
 
-
         switch (command) {
             case "ls":
                 if (parameter == null) ls.execute(actualDir);
@@ -58,6 +57,4 @@ public class Main {
         }
         if (!command.equals("error") && !command.equals("exit")) enterCommand();
     }
-
-
 }
