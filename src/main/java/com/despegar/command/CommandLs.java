@@ -25,33 +25,30 @@ public class CommandLs implements Command {
 
     public void execute(Dir actualDir, String parameter) {
         Optional<Dir> foundDir = search(actualDir, TREE_FACTORY);
-        if(foundDir.isPresent()){
+        if (foundDir.isPresent()) {
             Dir someDir = foundDir.get();
-            if(parameter!= null && parameter.equals("-r")) {
+            if (parameter != null && parameter.equals("-r")) {
                 printTree(someDir);
-            }
-            else{
+            } else {
                 printFiles(someDir);
             }
-        }
-        else Command.printString("No encontró directorio " + actualDir.getName());
+        } else Command.printString("No encontró directorio " + actualDir.getName());
     }
 
-    private Optional<Dir> search(Dir actualDir, Dir tree){
-        if(actualDir.getName().equals("/")) return Optional.of(TREE_FACTORY);
+    private Optional<Dir> search(Dir actualDir, Dir tree) {
+        if (actualDir.getName().equals("/")) return Optional.of(TREE_FACTORY);
         Optional<Dir> dirSearched = tree.getDirs().stream().filter(dir -> dir.getName().equals(actualDir.getName())).findAny();
-        if(dirSearched.isPresent()){
+        if (dirSearched.isPresent()) {
             return dirSearched;
-        }
-        else {
+        } else {
             final Dir[] searched = {null};
             tree.getDirs().forEach(dirNew -> {
-                if(searched[0] == null) {
+                if (searched[0] == null) {
                     Optional<Dir> optionalDir = search(actualDir, dirNew);
                     optionalDir.ifPresent(dir -> searched[0] = dir);
                 }
             });
-            if(searched[0]!= null) return Optional.of(searched[0]);
+            if (searched[0] != null) return Optional.of(searched[0]);
             else return Optional.empty();
         }
     }
@@ -60,9 +57,9 @@ public class CommandLs implements Command {
         printFiles(actualDir);
 
         actualDir.getDirs().forEach(dirX -> {
-                Command.printString("directorio: " + dirX.getName());
-                if (!dirX.getDirs().isEmpty()) printTree(dirX);
-                else printFiles(dirX);
+            Command.printString("directorio: " + dirX.getName());
+            if (!dirX.getDirs().isEmpty()) printTree(dirX);
+            else printFiles(dirX);
         });
     }
 

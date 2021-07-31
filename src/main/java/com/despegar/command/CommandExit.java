@@ -24,5 +24,7 @@ public class CommandExit implements Command {
     }
 
     @Override
-    public void execute(Dir actualDir, String parameter) { Command.printString(this.toString()); }
+    public void execute(Dir actualDir, String parameter) {
+        Command.printString(this.toString());
+    }
 }
