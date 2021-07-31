@@ -1,5 +1,6 @@
 package com.despegar;
 
+import com.despegar.command.Command;
 import com.despegar.command.CommandExit;
 import com.despegar.command.CommandLs;
 import com.despegar.tree.Dir;
@@ -8,8 +9,6 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static final CommandExit exit = new CommandExit("exit");
-    private static final CommandLs ls = new CommandLs("ls");
     private static Dir actualDir = Dir.builder().name("/").build();
 
     public static void main(String[] args) {
@@ -17,44 +16,68 @@ public class Main {
     }
 
     private static void enterCommand() {
-        Scanner sc = new Scanner(System.in);
-        System.out.print(">");
-        String command = sc.nextLine();
         String parameter = null;
+        String enteredCommand = getCommand();
 
-        String[] strings = command.split("/");
+        String[] strings = enteredCommand.split("/");
 
+        if (enteredCommand.contains("ls")) {
+            updateActualDir(strings);
 
-        if (command.contains("ls")) {
-            if (strings.length == 2) {
-                actualDir = Dir.builder().name(strings[1].trim()).build();
+            enteredCommand = strings[0].trim();
 
-            } else if (strings.length == 1) {
-                actualDir = Dir.builder().name("/").build();
-            }
-            command = strings[0].trim();
-
-            if (command.contains("-r")) {
-                String[] strings0 = command.split("-r");
-                command = strings0[0].trim();
+            if (enteredCommand.contains("-r")) {
+                String[] strings0 = enteredCommand.split("-r");
+                enteredCommand = strings0[0].trim();
                 parameter = "-r";
             }
         }
 
-        System.out.printf("command: %s%n", command);
+        System.out.printf("enteredCommand: %s%n", enteredCommand);
         System.out.printf("name: %s%n", actualDir.getName());
 
-        switch (command) {
+        boolean valid = true;
+        Command command = null;
+
+        switch (enteredCommand) {
             case "ls":
-                if (parameter == null) ls.execute(actualDir);
-                else ls.execute(actualDir, parameter);
+                command = new CommandLs("ls");
                 break;
             case "exit":
-                exit.execute(actualDir);
+                command = new CommandExit("exit");
                 break;
             default:
-                command = "error";
+                valid = false;
         }
-        if (!command.equals("error") && !command.equals("exit")) enterCommand();
+
+        if (valid){
+            if (parameter == null) command.execute(getActualDir());
+            else command.execute(getActualDir(), parameter);
+            if (!enteredCommand.equals("exit")) enterCommand();
+        }
+
+    }
+
+    private static void updateActualDir(String[] strings) {
+        if (strings.length == 2) {
+            setActualDir(Dir.builder().name(strings[1].trim()).build());
+
+        } else if (strings.length == 1) {
+            setActualDir(Dir.builder().name("/").build());
+        }
+    }
+
+    private static String getCommand() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print(">");
+        return sc.nextLine();
+    }
+
+    public static Dir getActualDir() {
+        return actualDir;
+    }
+
+    public static void setActualDir(Dir actualDir) {
+        Main.actualDir = actualDir;
     }
 }

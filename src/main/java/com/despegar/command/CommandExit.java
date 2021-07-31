@@ -22,4 +22,7 @@ public class CommandExit implements Command {
     public void execute(Dir actualDir) {
         Command.printString(this.toString());
     }
+
+    @Override
+    public void execute(Dir actualDir, String parameter) { Command.printString(this.toString()); }
 }
