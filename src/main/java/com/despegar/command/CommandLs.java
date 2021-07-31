@@ -66,7 +66,7 @@ public class CommandLs implements Command {
         });
     }
 
-    private void printFiles(Dir actualDir) {
+    public void printFiles(Dir actualDir) {
         actualDir.getFiles().forEach(file -> Command.printString(file.getName() + " - " + file.getSize()));
     }
 }
