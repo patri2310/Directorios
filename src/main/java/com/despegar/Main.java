@@ -8,7 +8,7 @@ import com.despegar.command.CommandManager;
 
 public class Main {
 
-    private static CommandManager commandManager = new CommandManager();
+    private static final CommandManager commandManager = new CommandManager();
 
     public static void main(String[] args) {
         enterCommand();
@@ -16,7 +16,7 @@ public class Main {
 
     private static void enterCommand() {
 
-        String enteredCommand = commandManager.getCommand();
+        String enteredCommand = CommandManager.getCommand();
         commandManager.analyze(enteredCommand);
 
         System.out.printf("enteredCommand: %s%n", commandManager.getFirstCommand());
