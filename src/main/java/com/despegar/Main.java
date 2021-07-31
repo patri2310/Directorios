@@ -4,6 +4,7 @@ import com.despegar.command.Command;
 import com.despegar.command.CommandExit;
 import com.despegar.command.CommandLs;
 import com.despegar.command.CommandManager;
+import com.despegar.tree.Dir;
 
 
 public class Main {
@@ -17,16 +18,20 @@ public class Main {
     private static void enterCommand() {
 
         String enteredCommand = CommandManager.getCommand();
+
         commandManager.analyze(enteredCommand);
 
-        System.out.printf("enteredCommand: %s%n", commandManager.getFirstCommand());
-        System.out.printf("parameter: %s%n", commandManager.getParameter());
-        System.out.printf("directorio actual: %s%n%n", commandManager.getActualDir().getName());
+        String firstCommand = commandManager.getFirstCommand();
+        String parameter = commandManager.getParameter();
+        Dir actualDir = commandManager.getActualDir();
 
-        boolean valid = true;
+        System.out.printf("enteredCommand: %s%n", firstCommand);
+        System.out.printf("parameter: %s%n", parameter);
+        System.out.printf("directorio actual: %s%n%n", actualDir.getName());
 
         Command command = null;
-        switch (commandManager.getFirstCommand()) {
+        boolean valid = true;
+        switch (firstCommand) {
             case "ls":
                 command = new CommandLs("ls");
                 break;
@@ -38,8 +43,8 @@ public class Main {
         }
 
         if (valid) {
-            if (commandManager.getParameter() == null) command.execute(commandManager.getActualDir());
-            else command.execute(commandManager.getActualDir(), commandManager.getParameter());
+            if (parameter == null) command.execute(actualDir);
+            else command.execute(actualDir, parameter);
             if (!enteredCommand.equals("exit")) enterCommand();
         }
 
