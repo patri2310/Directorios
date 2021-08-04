@@ -21,7 +21,9 @@ public class CommandLsTest {
 
         Ls commandLs1 = new Ls("ls", Optional.empty(), "/");
         String allWrittenLines = getString(commandLs1);
-        assertEquals("archivo: file-1 - 1\n" +
+        assertEquals("directorio: patricia\n" +
+                "directorio: despegar\n" +
+                "archivo: file-1 - 1\n" +
                 "archivo: file-2 - 1\n" +
                 "archivo: file-3 - 1\n" +
                 "archivo: file-4 - 1\n", allWrittenLines);
@@ -55,7 +57,7 @@ public class CommandLsTest {
     private String getString(Ls commandLs) throws IOException {
         ByteArrayOutputStream bo = new ByteArrayOutputStream();
         System.setOut(new PrintStream(bo));
-        commandLs.execute(commandLs.getPathParameter());
+        commandLs.execute();
         bo.flush();
         return bo.toString();
     }

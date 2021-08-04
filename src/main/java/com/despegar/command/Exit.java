@@ -26,21 +26,19 @@ public class Exit implements Command {
         return this.pathParameter;
     }
 
-
-    @Override
-    public Dir execute(String dirActual) {
-        Command.printString(this.toString());
-        return Dir.builder().name(dirActual).build();
-    }
-
     @Override
     public Optional<String> getParameter() {
         return Optional.empty();
     }
 
     @Override
-    public String getName() {
-        return this.name;
+    public Dir execute() {
+        Command.printString(this.toString());
+        return Dir.builder().name(getPathParameter()).build();
     }
+
+
+
+
 
 }

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public class Ls implements Command {
     private String name;
-    Optional<String> parameter;
+    private Optional<String> parameter;
     private String pathParameter;
 
     private DirManager dirManager = new DirManager();
@@ -19,32 +19,8 @@ public class Ls implements Command {
     }
 
     @Override
-    public String toString() {
-        return "Command{" +
-                "name='" + name + '\'' +
-                '}';
-    }
-
-    @Override
     public String getPathParameter() {
         return this.pathParameter;
-    }
-
-
-    public Dir execute(String actualDir) {
-        Optional<Dir> foundDir = search(actualDir, dirManager.getAllDir());
-        if (foundDir.isPresent()) {
-            Dir someDir = foundDir.get();
-            if (getParameter().isPresent() && getParameter().get().equals("-r")) {
-                printTree(someDir);
-            } else {
-                printFiles(someDir);
-            }
-            return someDir;
-        } else {
-            Command.printString("No encontró directorio " + actualDir);
-            return null;
-        }
     }
 
     @Override
@@ -53,10 +29,30 @@ public class Ls implements Command {
     }
 
     @Override
-    public String getName() {
-        return this.name;
+    public String toString() {
+        return "Command{" +
+                "name='" + name + '\'' +
+                '}';
     }
 
+
+    public Dir execute() {
+        String actualDir = getPathParameter();
+        Optional<Dir> foundDir = search(actualDir, dirManager.getAllDir());
+        if (foundDir.isPresent()) {
+            Dir someDir = foundDir.get();
+            if (getParameter().isPresent() && getParameter().get().equals("-r")) {
+                printTree(someDir);
+            } else {
+                printDirs(someDir);
+                printFiles(someDir);
+            }
+            return someDir;
+        } else {
+            Command.printString("No encontró directorio " + actualDir);
+            return null;
+        }
+    }
 
     private Optional<Dir> search(String actualDir, Dir tree) {
         if (actualDir.equals("/")) return Optional.of(dirManager.getAllDir());
@@ -85,7 +81,11 @@ public class Ls implements Command {
         });
     }
 
-    public void printFiles(Dir actualDir) {
+    private void printDirs(Dir actualDir){
+        actualDir.getDirs().forEach(dirX -> Command.printString("directorio: " + dirX.getName()));
+    }
+
+    private void printFiles(Dir actualDir) {
         actualDir.getFiles().forEach(file -> Command.printString( "archivo: " + file.getName() + " - " + file.getSize()));
     }
 

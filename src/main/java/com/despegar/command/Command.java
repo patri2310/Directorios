@@ -4,13 +4,10 @@ import com.despegar.tree.Dir;
 
 import java.util.Optional;
 
-
 public interface Command {
-
-    String getPathParameter();
-    Dir execute(String actualDir);
+    Dir execute();
     Optional<String> getParameter();
-    String getName();
+    String getPathParameter();
     static void printString(String text) {
         System.out.print(text + "\n");
     }
