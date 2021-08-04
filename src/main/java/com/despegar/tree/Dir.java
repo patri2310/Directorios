@@ -14,11 +14,12 @@ public class Dir implements FileSystem{
     @NonNull
     String name;
 
-    String parent_name;
+    String parent;
 
     @Builder.Default
     List<Dir> dirs = Collections.EMPTY_LIST;
 
     @Builder.Default
     List<FileMule> files = Collections.EMPTY_LIST;
+
 }

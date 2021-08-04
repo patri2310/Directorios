@@ -18,16 +18,16 @@ public class CommandManager {
            parameter =  Optional.of(recursive);
        }
 
-        String nameDir = commands.length>1 && commands[1]!=null ? commands[1] : "/";
+        String path = commands.length > 1 && commands[1] != null ? commands[1] : "/";
 
         System.out.printf("command: %s - ", firstCommand);
         System.out.printf("parameter: %s%n%n", parameter);
 
         switch (firstCommand) {
             case "ls":
-                return new Ls("ls", parameter, nameDir);
+                return new Ls("ls", parameter, path);
             case "exit":
-                return new Exit("exit", nameDir);
+                return new Exit("exit", path);
             default:
                 return null;
         }

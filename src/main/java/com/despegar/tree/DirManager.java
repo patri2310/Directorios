@@ -48,29 +48,29 @@ public class DirManager {
 
     public Dir factoryBase() {
 
-        val download = Dir.builder().name("downloads").parent_name("patricia").files(asList(
-                FileMule.builder().name("download1").parent_name("downloads").size(1).build(),
-                FileMule.builder().name("download2").parent_name("downloads").size(2).build(),
-                FileMule.builder().name("download3").parent_name("downloads").size(3).build(),
-                FileMule.builder().name("download4").parent_name("downloads").size(4).build(),
-                FileMule.builder().name("download5").parent_name("downloads").size(5).build())).build();
+        val download = Dir.builder().name("downloads").parent("patricia").files(asList(
+                FileMule.builder().name("download1").parent("downloads").size(1).build(),
+                FileMule.builder().name("download2").parent("downloads").size(2).build(),
+                FileMule.builder().name("download3").parent("downloads").size(3).build(),
+                FileMule.builder().name("download4").parent("downloads").size(4).build(),
+                FileMule.builder().name("download5").parent("downloads").size(5).build())).build();
 
-        val images = Dir.builder().name("images").parent_name("patricia").files(asList(
-                FileMule.builder().name("image-1").parent_name("images").size(1).build(),
-                FileMule.builder().name("image-2").parent_name("images").size(2).build(),
-                FileMule.builder().name("image-3").parent_name("images").size(3).build(),
-                FileMule.builder().name("image-4").parent_name("images").size(4).build(),
-                FileMule.builder().name("image-5").parent_name("images").size(5).build())).build();
+        val images = Dir.builder().name("images").parent("patricia").files(asList(
+                FileMule.builder().name("image-1").parent("images").size(1).build(),
+                FileMule.builder().name("image-2").parent("images").size(2).build(),
+                FileMule.builder().name("image-3").parent("images").size(3).build(),
+                FileMule.builder().name("image-4").parent("images").size(4).build(),
+                FileMule.builder().name("image-5").parent("images").size(5).build())).build();
 
-        val patricia = Dir.builder().name("patricia").parent_name("/").dirs(asList(download, images)).build();
+        val patricia = Dir.builder().name("patricia").parent("/").dirs(asList(download, images)).build();
 
-        val despegar = Dir.builder().name("despegar").parent_name("/").files(Collections.singletonList(FileMule.builder().name("sensitive.conf").parent_name("despegar").size(100).build())).build();
+        val despegar = Dir.builder().name("despegar").parent("/").files(Collections.singletonList(FileMule.builder().name("sensitive.conf").parent("despegar").size(100).build())).build();
 
         return Dir.builder().name("/").files(asList(
-                FileMule.builder().name("file-1").parent_name("/").size(1).build(),
-                FileMule.builder().name("file-2").parent_name("/").size(1).build(),
-                FileMule.builder().name("file-3").parent_name("/").size(1).build(),
-                FileMule.builder().name("file-4").parent_name("/").size(1).build()))
+                FileMule.builder().name("file-1").parent("/").size(1).build(),
+                FileMule.builder().name("file-2").parent("/").size(1).build(),
+                FileMule.builder().name("file-3").parent("/").size(1).build(),
+                FileMule.builder().name("file-4").parent("/").size(1).build()))
                 .dirs(asList(patricia, despegar))
                 .build();
     }

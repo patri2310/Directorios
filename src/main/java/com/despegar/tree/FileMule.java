@@ -12,10 +12,7 @@ public class FileMule implements FileSystem{
     String name;
 
     @NonNull
-    String parent_name;
+    String parent;
 
     Integer size;
-
-
-
 }
