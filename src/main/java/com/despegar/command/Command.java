@@ -1,19 +1,17 @@
 package com.despegar.command;
 
 import com.despegar.tree.Dir;
-import com.despegar.tree.TreeFactory;
+
+import java.util.Optional;
 
 
 public interface Command {
-    Dir TREE_FACTORY = new TreeFactory().factory();
 
-    void execute(Dir actualDir);
-
-    void execute(Dir actualDir, String parameter);
-
+    String getPathParameter();
+    Dir execute(String actualDir);
+    Optional<String> getParameter();
+    String getName();
     static void printString(String text) {
         System.out.print(text + "\n");
     }
-
-
 }

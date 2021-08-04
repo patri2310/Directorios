@@ -1,43 +1,37 @@
 package com.despegar.command;
 
-import com.despegar.tree.Dir;
+import java.util.Optional;
 
 public class CommandFactory {
 
     private static final CommandManager commandManager = new CommandManager();
 
-    public boolean createCommand(){
+    public Command createCommand(){
 
         String enteredCommand = CommandManager.getCommand();
-        commandManager.analyze(enteredCommand);
+        String[] commands = enteredCommand.split("/");
+        String recursive = "-r";
+        Optional<String> parameter = Optional.empty();
+        String firstCommand = commands[0].trim();
 
-        String firstCommand = commandManager.getFirstCommand();
-        String parameter = commandManager.getParameter();
-        Dir actualDir = commandManager.getActualDir();
+        if(commands[0].contains(recursive)){
+           firstCommand = commands[0].split(recursive)[0].trim();
+           parameter =  Optional.of(recursive);
+       }
+
+
+        String nameDir = commands.length>1 && commands[1]!=null ? commands[1] : "/";
 
         System.out.printf("enteredCommand: %s%n", firstCommand);
         System.out.printf("parameter: %s%n", parameter);
-        System.out.printf("directorio actual: %s%n%n", actualDir.getName());
 
-        Command command = null;
-        boolean valid = true;
         switch (firstCommand) {
             case "ls":
-                command = new CommandLs("ls");
-                break;
+                return new Ls("ls", parameter, nameDir);
             case "exit":
-                command = new CommandExit("exit");
-                break;
+                return new Exit("exit", nameDir);
             default:
-                valid = false;
+                return null;
         }
-
-        if (valid) {
-            if (parameter == null) command.execute(actualDir);
-            else command.execute(actualDir, parameter);
-
-            return !enteredCommand.equals("exit");
-        }
-        return false;
     }
 }

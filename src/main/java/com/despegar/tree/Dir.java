@@ -9,10 +9,12 @@ import java.util.List;
 
 @Builder
 @Getter
-public class Dir {
+public class Dir implements FileSystem{
 
     @NonNull
     String name;
+
+    String parent_name;
 
     @Builder.Default
     List<Dir> dirs = Collections.EMPTY_LIST;
