@@ -38,7 +38,7 @@ public class Ls implements Command {
 
     public Dir execute() {
         String actualDir = getPathParameter();
-        Optional<Dir> foundDir = search(actualDir, dirManager.getAllDir());
+        Optional<Dir> foundDir = dirManager.search(actualDir);
         if (foundDir.isPresent()) {
             Dir someDir = foundDir.get();
             if (getParameter().isPresent() && getParameter().get().equals("-r")) {
@@ -51,24 +51,6 @@ public class Ls implements Command {
         } else {
             Command.printString("No encontró directorio " + actualDir);
             return null;
-        }
-    }
-
-    private Optional<Dir> search(String actualDir, Dir tree) {
-        if (actualDir.equals("/")) return Optional.of(dirManager.getAllDir());
-        Optional<Dir> dirSearched = tree.getDirs().stream().filter(dir -> dir.getName().equals(actualDir)).findAny();
-        if (dirSearched.isPresent()) {
-            return dirSearched;
-        } else {
-            final Dir[] searched = {null};
-            tree.getDirs().forEach(dirNew -> {
-                if (searched[0] == null) {
-                    Optional<Dir> optionalDir = search(actualDir, dirNew);
-                    optionalDir.ifPresent(dir -> searched[0] = dir);
-                }
-            });
-            if (searched[0] != null) return Optional.of(searched[0]);
-            else return Optional.empty();
         }
     }
 

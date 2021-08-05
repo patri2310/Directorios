@@ -3,6 +3,7 @@ package com.despegar.tree;
 import lombok.val;
 
 import java.util.Collections;
+import java.util.Optional;
 
 import static java.util.Arrays.asList;
 
@@ -32,7 +33,6 @@ public class DirManager {
         this.allDir = this.factoryBase();
         this.setActualDir(this.allDir);
     }
-
 
     public Dir changeDir(Dir actualDir){
         return null;
@@ -75,4 +75,20 @@ public class DirManager {
                 .build();
     }
 
+    public Optional<Dir> search(String actualDir) {
+        if (actualDir.equals("/")) return Optional.of(getAllDir());
+        Optional<Dir> dirSearched = getAllDir().getDirs().stream().filter(dir -> dir.getName().equals(actualDir)).findAny();
+        return dirSearched;
+        /*else {
+            final Dir[] searched = {null};
+            tree.getDirs().forEach(dirNew -> {
+                if (searched[0] == null) {
+                    Optional<Dir> optionalDir = search(actualDir, dirNew);
+                    optionalDir.ifPresent(dir -> searched[0] = dir);
+                }
+            });
+            if (searched[0] != null) return Optional.of(searched[0]);
+            else return Optional.empty();
+        }*/
+    }
 }

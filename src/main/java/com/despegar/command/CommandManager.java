@@ -8,24 +8,53 @@ public class CommandManager {
     public Command createCommand(){
 
         String enteredCommand = getCommand().toLowerCase();
-        String[] commands = enteredCommand.split("/");
+
         String recursive = "-r";
+        String back = "..";
+        String slash = "/";
+
         Optional<String> parameter = Optional.empty();
-        String firstCommand = commands[0].trim();
 
-        if(commands[0].contains(recursive)){
-           firstCommand = commands[0].split(recursive)[0].trim();
-           parameter =  Optional.of(recursive);
-       }
+        String firstCommand;
+        String secondCommand = null;
 
-        String path = commands.length > 1 && commands[1] != null ? commands[1] : "/";
+        if(enteredCommand.contains(recursive)){
+            parameter = Optional.of(recursive);
+            String[] strings = enteredCommand.split(recursive);
+            firstCommand = strings[0].trim();
+            secondCommand = strings.length>1?strings[1].trim(): slash;
+        }
+        else {
+            firstCommand = enteredCommand.trim();
+            if(enteredCommand.contains(back)){
+                firstCommand = enteredCommand.substring(0, enteredCommand.indexOf(back)).trim();
+                parameter = Optional.of(back);
+            }
+        }
+
+        String path = slash;
+        int positionFirstSlash = firstCommand.indexOf(slash);
+        if(positionFirstSlash>0){
+            path = firstCommand.substring(positionFirstSlash+1).trim();
+            firstCommand = firstCommand.substring(0, positionFirstSlash).trim();
+        }
+        else
+            if(secondCommand != null){
+                int positionSlash = secondCommand.indexOf(slash);
+                if(positionSlash>0){
+                    path = secondCommand.substring(positionSlash+1).trim();
+                }
+        }
 
         System.out.printf("command: %s - ", firstCommand);
         System.out.printf("parameter: %s%n%n", parameter);
+        System.out.printf("path: %s%n%n", path);
 
         switch (firstCommand) {
             case "ls":
                 return new Ls("ls", parameter, path);
+            case "cd":
+                return new Cd("cd", parameter, path);
             case "exit":
                 return new Exit("exit", path);
             default:
